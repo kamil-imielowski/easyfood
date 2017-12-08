@@ -1,27 +1,29 @@
 <?php
 namespace classes\Users;
+
+
+use classes\Database\DatabaseController;
 /**
 *
 */
 class UsersController
 {
-	var $userID            = '';
-	var $logID             = '';
+	private $db;
+	private $logID            = '';
+	private $err_log          = [];
 
-	var $err_log           = '';
-	var $err_txt           = '';
-
-	var $user_login        = '';
-
-	var $user_name         = '';
-	var $user_surname      = '';
-	var $user_email        = '';
-	var $user_type		   = '';
+	public $userID            = '';
+	public $user_name         = '';
+	public $user_surname      = '';
+	public $user_email        = '';
+	public $user_type		   		= '';
 
 
 
-	public function __construct()
+	public function __construct(DatabaseController $DB)
 	{
+		$this->db = $DB;
+
 		if (session_panel=='' || session_panel=='session_panel') die('"session_panel" not defined.');
 
 		$this->userID = '';
@@ -38,16 +40,39 @@ class UsersController
 
 	public function userLogin($login, $pass)
 	{
-		$t=db_get_arr('users', 'id, email, state', 'LOWER(email)=LOWER("'.$login.'") AND pass="'.$pass.'" LIMIT 0, 1');
+		$query = 'SELECT id, email, state FROM users where LOWER(email) = :email AND pass = :pass LIMIT 0, 1';//WHERE id = :id
+		$param = [
+		            'email' => $login,
+								'pass' => md5($pass)
+		          ];
+
+		$this->db->setQuery($query)->setParams($param)->execute();
+		$t = $this->db->fetchData();
+
 		$o = false;
 
-		if (is_Array($t))
+		if (!empty($t))
 	    {
 	    	if ($t[0]['state']!='on' && $t[0]['state']!='moderate')
 	        {
 	        	$msg = 'account_blocked';
-	        	$this->err_log[] = $msg;
-	        	$log_id = db_add('users_logging', '"0", NOW(), "0000-00-00 00:00:00", 1, "'.mysqli_real_escape_string($login).'", "0", "'.getenv("REMOTE_ADDR").'", "'.gethostbyaddr(getenv("REMOTE_ADDR")).'", "'.mysqli_real_escape_string(getenv("HTTP_USER_AGENT")).'", "blocked"');
+	        	array_push($this->err_log,$msg);
+						$query = "
+		            INSERT INTO users_logging(date_log, login, user_id, ip, hostname, system, state)
+		            VALUES (NOW(), :login, :user_id, :ip, :hostname, :system, 'blocked')
+		        ";
+
+		        $params = [
+		            "login" => $login,
+		            "user_id" => $t[0]['id'],
+		            "ip" => getenv("REMOTE_ADDR"),
+		            "hostname" => gethostbyaddr(getenv("REMOTE_ADDR")),
+		            "system" => getenv("HTTP_USER_AGENT")
+		        ];
+
+		        $this->db->setQuery($query)->setParams($params)->execute();
+						$log_id = $this->db->getLastId();
+
 	        }
 	     	else
 	       	{
@@ -56,7 +81,21 @@ class UsersController
 
 	        	$_SESSION[session_panel]['userID'] = $this->userID;
 
-	        	$log_id = db_add('users_logging', '"0", NOW(), "0000-00-00 00:00:00", 1, "'.mysqli_real_escape_string($login).'", "'.$this->userID.'", "'.getenv("REMOTE_ADDR").'", "'.gethostbyaddr(getenv("REMOTE_ADDR")).'", "'.mysqli_real_escape_string(getenv("HTTP_USER_AGENT")).'", "in"');
+						$query = "
+		            INSERT INTO users_logging (date_log, login, user_id, ip, hostname, system, state)
+		            VALUES (NOW(), :login, :user_id, :ip, :hostname, :system, 'in')
+		        ";
+
+		        $params = [
+		            "login" => $login,
+		            "user_id" => $t[0]['id'],
+		            "ip" => getenv("REMOTE_ADDR"),
+		            "hostname" => gethostbyaddr(getenv("REMOTE_ADDR")),
+		            "system" => getenv("HTTP_USER_AGENT")
+		        ];
+
+		        $this->db->setQuery($query)->setParams($params)->execute();
+						$log_id = $this->db->getLastId();
 
 	        	$this->logID  = $_SESSION[session_panel]['logID'] = $log_id;
 
@@ -69,36 +108,37 @@ class UsersController
 	    {
 	    	$msg = 'account_bad_username_password';
 
-	    	$this->err_log[] = $msg;
+	    	array_push($this->err_log,$msg);
 
 	    }
 
 		return $o;
 	}
 
-	public function prepareUserAvatar($id = ''){
-		if(empty($id)) $id = $this->userID;
-
-		$a = db_get_arr('users','picture','id="'.$id.'"');
-		if(is_array($a) && $a[0]['picture'] != '')
-			return base_url.filesDir(user_files, $id).$a[0]['picture'];
-		else return base_url.'images/av.png';
-	}
-
-	public function CheckEmailExist($email)
+	public function CheckEmailExist($email): bool
 	{
-		$a = db_count('users','email="'.$email.'"');
-		if($a > 0)
-			return true;
-		else
-			return false;
+		$query = 'SELECT COUNT(*) FROM users where email = :email';//WHERE id = :id
+		$param = [
+								'email' => $email
+							];
+
+		$this->db->setQuery($query)->setParams($param)->execute();
+		$a= $this->db->fetchData();
+
+		return $a;
 	}
 
 	private function getUserInfo()
 	{
 		if(is_numeric($this->userID)){
 
-			$a = db_get_arr('users', 'id, firstname, email, lastname, user_type', 'id="'.$this->userID.'"');
+			$query = 'SELECT id, firstname, email, lastname, user_type FROM users where id = :id';//WHERE id = :id
+			$param = [
+			            'id' => $this->userID
+			          ];
+
+			$this->db->setQuery($query)->setParams($param)->execute();
+			$a= $this->db->fetchData();
 
 			if (is_array($a)){
 				$a = $a[0];
@@ -119,20 +159,10 @@ class UsersController
 	}
 
 
-	public function logoutMe()
+	public function logout()
 	{
 		$this->userID = $_SESSION[session_panel]['userID'] = '';
 		$this->logID  = $_SESSION[session_panel]['logID'] = '';
-	}
-
-
-	public function isAdmin()
-	{
-		$a = db_get_arr('users','*','id="'.$this->userID.'" and user_type="admin"');
-		if(is_array($a))
-			return true;
-		else
-			return false;
 	}
 }
 
