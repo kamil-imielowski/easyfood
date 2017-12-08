@@ -28,7 +28,7 @@
 		{
 			$content['template_file'] = 'home.tpl.php';
 		}else{
-			//	header('Location: /404.html');
+			header('Location: /404.html');
 			exit();
 		}
 	}
