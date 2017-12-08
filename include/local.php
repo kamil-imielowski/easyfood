@@ -3,7 +3,7 @@ require_once 'db_config.php';
 
 define('session_panel', 'SR-System-Rekrutacji');
 
-define('site_name', 'System Rekrutacji');
+define('site_name', 'EasyFood');
 
 define('date_time_now', date("Y-m-d H:i:s",time()));
 
@@ -11,9 +11,13 @@ define('base_url', 'http://'.$_SERVER["HTTP_HOST"].'/');
 
 define('template_dir', 'templates/');
 
-define('app_route', 'js/app/');
+define('__DIR_CSS__', 'assets/css/');
 
-define('user_files', 'files/users');
+define('__DIR_JS__', 'assets/js/');
+
+define('__DIR_JS_APP__', 'assets/js/app/');
+
+define('__DIR_UPLOAD__', 'assets/upload/');
 
 define('request_url', $_SERVER["REQUEST_URI"]);
 

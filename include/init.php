@@ -14,7 +14,8 @@
  use classes\Database\DatabaseController;
  $DB = new DatabaseController($__dbConfig);
 
-
+ use classes\Content\ContentController;
+ $cnt = new ContentController();
 
 
 
