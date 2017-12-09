@@ -12,12 +12,14 @@
 	// NOTE: CSS GLOBALS
 	$cnt->addAsset('bootstrap.min.css');
 	$cnt->addAsset('font-awesome.min.css');
+	$cnt->addAsset('grasp_mobile_progress_circle-1.0.0.min.css');
 	$cnt->addAsset('custom.min.css');
-
+	
 	// NOTE: JS GLOBALS
 	$cnt->addAsset('jquery-3.2.1.slim.min.js');
 	$cnt->addAsset('popper.min.js');
 	$cnt->addAsset('bootstrap.min.js');
+	$cnt->addAsset('front.js');
 	$cnt->addAsset('app/'.$_GET['g'].'.js');
 
 
