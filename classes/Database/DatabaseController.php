@@ -5,7 +5,6 @@ use PDO;
 
 class DatabaseController
 {
-    private $functions;
     private $pdo;
     private $pdoCfg;
     public $query;
@@ -13,6 +12,7 @@ class DatabaseController
     private $params;
     private $host;
     private $port;
+    private $debug = true;
     private $database;
     private $username;
     private $password;
@@ -66,7 +66,7 @@ class DatabaseController
             {
                 //require __CFG_DIR__ . "/config.php";
 
-                if($this->functions->isDev())
+                if($this->debug)
                 {
                     die(var_dump($e));
                 }
@@ -74,7 +74,7 @@ class DatabaseController
                 {
                     $response = [
                         "status" => "fail",
-                        "msg" => "general server error, please contact server admin at " . $__config["server_admin"]
+                        "msg" => "general server error, please contact server admin at root@localhost"
                     ];
 
                     die(json_encode($response));
