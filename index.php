@@ -34,14 +34,27 @@ else                 $cache = '';
   </head>
   <body>
 
+  <?php include_once dirname(__FILE__).'/templates/includes/menu.tpl.php'; ?>
+
     <?php
        $tf = $content['template_file'];
        if ($tf!='' && file_exists(template_dir.$tf)) include(template_dir.$tf);
     ?>
 
-
-
-
     <?php echo $cnt->linkJS(); ?>
+
+    <footer class="main-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <p>Easy food &copy; <?php echo date("Y") ?></p>
+            </div>
+            <div class="col-sm-6 text-right">
+              <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
