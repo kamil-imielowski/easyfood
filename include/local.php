@@ -1,6 +1,4 @@
 <?php
-require_once 'db_config.php';
-
 define('session_panel', 'SR-System-Rekrutacji');
 
 define('site_name', 'EasyFood');
