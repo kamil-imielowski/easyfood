@@ -1,0 +1,20 @@
+php_value	upload_max_filesize	100M
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+ Header set Cache-Control "max-age=1, public"
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+  RewriteBase /
+
+  RewriteRule  ^api/([^.]+)/([^.]+)/$                                          da.php?module=$1&action=$2 [L]
+  RewriteRule  ^api/([^.]+)/$                                                  da.php?module=$1 [L]
+
+  RewriteRule  ^([^.]+).html$                                                   index.php?g=$1 [L]
+  RewriteRule  ^index.html$                                                     index.php [L]
+
+
+</IfModule>
