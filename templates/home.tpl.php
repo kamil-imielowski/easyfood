@@ -19,7 +19,9 @@
         </nav>
     </header>
 
-
+<?php
+  $a = $cnt->siteData();
+?>
       <!-- Counts Section -->
       <section class="dashboard-counts section-padding">
         <div class="container-fluid">
@@ -27,48 +29,32 @@
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-user"></i></div>
-                <div class="name"><strong class="text-uppercase">New Clients</strong><span>Last 7 days</span>
-                  <div class="count-number">25</div>
+                <div class="name"><strong class="text-uppercase">Nowi klienci</strong><span>ostatnie 7 dni</span>
+                  <div class="count-number"><?php echo $a['users']; ?></div>
                 </div>
               </div>
             </div>
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-padnote"></i></div>
-                <div class="name"><strong class="text-uppercase">Work Orders</strong><span>Last 5 days</span>
-                  <div class="count-number">400</div>
+                <div class="name"><strong class="text-uppercase">Nowe restauracje</strong><span>ostatnie 7 dni</span>
+                  <div class="count-number"><?php echo $a['restaurants']; ?></div>
                 </div>
               </div>
             </div>
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-check"></i></div>
-                <div class="name"><strong class="text-uppercase">New Quotes</strong><span>Last 2 months</span>
-                  <div class="count-number">342</div>
+                <div class="name"><strong class="text-uppercase">Łącznie zamowień</strong><span>ostatnie 7 dni</span>
+                  <div class="count-number"><?php echo $a['orders']; ?></div>
                 </div>
               </div>
             </div>
             <div class="col-xl-2 col-md-4 col-6">
               <div class="wrapper count-title d-flex">
                 <div class="icon"><i class="icon-bill"></i></div>
-                <div class="name"><strong class="text-uppercase">New Invoices</strong><span>Last 2 days</span>
-                  <div class="count-number">123</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6">
-              <div class="wrapper count-title d-flex">
-                <div class="icon"><i class="icon-list"></i></div>
-                <div class="name"><strong class="text-uppercase">Open Cases</strong><span>Last 3 months</span>
-                  <div class="count-number">92</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-2 col-md-4 col-6">
-              <div class="wrapper count-title d-flex">
-                <div class="icon"><i class="icon-list-1"></i></div>
-                <div class="name"><strong class="text-uppercase">New Cases</strong><span>Last 7 days</span>
-                  <div class="count-number">70</div>
+                <div class="name"><strong class="text-uppercase">Łącznie dań zamowionych</strong><span>ostatnie 7 dni</span>
+                  <div class="count-number"><?php echo $a['orders_items']; ?></div>
                 </div>
               </div>
             </div>
@@ -87,35 +73,35 @@
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 </header>
                 <ul class="check-lists list-unstyled">
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-1" name="list-1" class="form-control-custom">
                     <label for="list-1">Similique sunt in culpa qui officia</label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-2" name="list-2" class="form-control-custom">
                     <label for="list-2">Ed ut perspiciatis unde omnis iste</label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-3" name="list-3" class="form-control-custom">
                     <label for="list-3">At vero eos et accusamus et iusto </label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-4" name="list-4" class="form-control-custom">
                     <label for="list-4">Explicabo Nemo ipsam voluptatem</label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-5" name="list-5" class="form-control-custom">
                     <label for="list-5">Similique sunt in culpa qui officia</label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-6" name="list-6" class="form-control-custom">
                     <label for="list-6">At vero eos et accusamus et iusto </label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-7" name="list-7" class="form-control-custom">
                     <label for="list-7">Similique sunt in culpa qui officia</label>
                   </li>
-                  <li class="d-flex align-items-center"> 
+                  <li class="d-flex align-items-center">
                     <input type="checkbox" id="list-8" name="list-8" class="form-control-custom">
                     <label for="list-8">Ed ut perspiciatis unde omnis iste</label>
                   </li>
@@ -201,7 +187,7 @@
                 <div id="updates-box" role="tabpanel" class="collapse show">
                   <ul class="news list-unstyled">
                     <!-- Item-->
-                    <li class="d-flex justify-content-between"> 
+                    <li class="d-flex justify-content-between">
                       <div class="left-col d-flex">
                         <div class="icon"><i class="icon-rss-feed"></i></div>
                         <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
@@ -213,7 +199,7 @@
                       </div>
                     </li>
                     <!-- Item-->
-                    <li class="d-flex justify-content-between"> 
+                    <li class="d-flex justify-content-between">
                       <div class="left-col d-flex">
                         <div class="icon"><i class="icon-rss-feed"></i></div>
                         <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
@@ -225,7 +211,7 @@
                       </div>
                     </li>
                     <!-- Item-->
-                    <li class="d-flex justify-content-between"> 
+                    <li class="d-flex justify-content-between">
                       <div class="left-col d-flex">
                         <div class="icon"><i class="icon-rss-feed"></i></div>
                         <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
@@ -237,7 +223,7 @@
                       </div>
                     </li>
                     <!-- Item-->
-                    <li class="d-flex justify-content-between"> 
+                    <li class="d-flex justify-content-between">
                       <div class="left-col d-flex">
                         <div class="icon"><i class="icon-rss-feed"></i></div>
                         <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
@@ -249,7 +235,7 @@
                       </div>
                     </li>
                     <!-- Item-->
-                    <li class="d-flex justify-content-between"> 
+                    <li class="d-flex justify-content-between">
                       <div class="left-col d-flex">
                         <div class="icon"><i class="icon-rss-feed"></i></div>
                         <div class="title">
