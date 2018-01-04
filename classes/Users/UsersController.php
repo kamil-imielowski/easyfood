@@ -117,7 +117,7 @@ class UsersController
 
 	public function CheckEmailExist($email): bool
 	{
-		$query = 'SELECT COUNT(*) FROM users where email = :email';//WHERE id = :id
+		$query = 'SELECT COUNT(*) as _ct FROM users where email like :email';//WHERE id = :id
 		$param = [
 								'email' => $email
 							];
@@ -125,7 +125,8 @@ class UsersController
 		$this->db->setQuery($query)->setParams($param)->execute();
 		$a= $this->db->fetchData();
 
-		return $a;
+
+		return (bool) $a[0]['_ct'];
 	}
 
 	private function getUserInfo()
