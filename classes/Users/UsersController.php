@@ -109,6 +109,7 @@ class UsersController
 	    	$msg = 'account_bad_username_password';
 
 	    	array_push($this->err_log,$msg);
+				$o = false;
 
 	    }
 

@@ -70,6 +70,19 @@ if ($_GET['module'] == 'user') {
 		}
 
 
+	}elseif ($_GET['action'] == 'login') {
+		if ($uac->userLogin($_POST['email'], $_POST['pass'])) {
+			$out = [
+							'status'=> 'succ',
+							'message' => 'Account registred.'
+						];
+		}else{
+			$out = [
+							'status'=> 'err',
+							'message' => 'Bad email or password.'
+						];
+			http_response_code(404);
+		}
 	}
 }
 

@@ -24,7 +24,7 @@
 
 	if (!empty($_GET['g']) && $_GET['g'] == 'logout') {
 		$uac->logout();
-		header('Location: /404.html');
+		header('Location: /');
 		exit();
 	}
 
