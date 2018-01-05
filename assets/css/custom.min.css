@@ -2711,3 +2711,16 @@ Bootstrapious Dashboard Template 1.1
   a.text-dark:focus, a.text-dark:hover {
     color: #1d2124 !important;
   }
+
+  .map{
+    width: 240px;
+    height: 160px;
+  }
+
+  .align-center{
+    align-items: center;
+  }
+
+  a.btn{
+    color: #fff !important;
+  }

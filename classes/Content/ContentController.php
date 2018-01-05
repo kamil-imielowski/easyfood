@@ -38,7 +38,7 @@ class ContentController
   {
     $_t = [];
     $date = date("Y-m-d h:i:s", strtotime("-5 day"));
-    
+
     $query = 'SELECT COUNT(*) as ls FROM users where date_add > :date AND user_type = :user_type';//WHERE id = :id
 		$param = [
 		            'date' => $date,
@@ -50,7 +50,7 @@ class ContentController
     $query = 'SELECT COUNT(*) as ls FROM users where date_add > :date AND user_type = :user_type';//WHERE id = :id
 		$param = [
 		            'date' => $date,
-                'user_type' => 'restaurer'
+                'user_type' => 'restaurateur'
 		          ];
 		$this->db->setQuery($query)->setParams($param)->execute();
 		$re = $this->db->fetchData();

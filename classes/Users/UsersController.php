@@ -8,7 +8,7 @@ use classes\Database\DatabaseController;
 */
 class UsersController
 {
-	private $db;
+	protected $db;
 	private $logID            = '';
 	private $err_log          = [];
 
@@ -35,7 +35,6 @@ class UsersController
 		}
 
 		$this->getUserInfo();
-		define('user_id', $this->userID);
 	}
 
 	public function userLogin($login, $pass)

@@ -29,7 +29,11 @@
 	}
 
 	if(file_exists(template_dir.$_GET['g'].'.tpl.php')){
-		$content['template_file'] = $_GET['g'].'.tpl.php';
+		if (isset($_GET['article_id']) && file_exists(template_dir.$_GET['g'].'_details.tpl.php')) {
+			$content['template_file'] = $_GET['g'].'_details.tpl.php';
+		}else {
+			$content['template_file'] = $_GET['g'].'.tpl.php';
+		}
 	}else{
 		if(empty($_GET['g']))
 		{
