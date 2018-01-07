@@ -22,9 +22,14 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
 
 </script>
 <section class="updates section-padding">
+  <input id="article_id" type="hidden" name="" value="<?php echo $_GET['article_id']; ?>">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-8 col-md-7">
+
+        <?php
+          if ($uac->isLogged() && $uac->userID == $_GET['article_id']) {
+        ?>
         <div id="new-updates" class="wrapper recent-updated">
           <div id="updates-header" class="card-header d-flex justify-content-between align-items-center">
             <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Dodawanie pozycji do menu</a></h2><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
@@ -32,28 +37,30 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
           <div id="updates-box" role="tabpanel" class="collapse show">
             <div class="card">
                <div class="card-body">
-                  <form class="form-inline">
+                  <form id="addProduct" class="form-inline">
                      <div class="form-group">
-                        <label for="inlineFormInput" class="sr-only">Name</label>
-                        <input id="inlineFormInput" type="text" placeholder="Jane Doe" class="mx-sm-3 form-control">
+                        <label for="inlineFormInput" class="sr-only">Nazwa</label>
+                        <input id="new_pName" type="text" placeholder="Nazwa" class="mx-sm-3 form-control" required>
                      </div>
                      <div class="form-group">
-                        <label for="inlineFormInputGroup" class="sr-only">Username</label>
-                        <input id="inlineFormInputGroup" type="text" placeholder="Username" class="mx-sm-3 form-control form-control">
+                        <label for="inlineFormInputGroup" class="sr-only">Opis</label>
+                        <input id="new_pDesc" type="text" placeholder="Opis" class="mx-sm-3 form-control form-control" required>
                      </div>
                      <div class="form-group">
-                        <label for="inlineFormInputGroup" class="sr-only">Username</label>
-                        <input id="inlineFormInputGroup" type="text" placeholder="Username" class="mx-sm-3 form-control form-control">
+                        <label for="inlineFormInputGroup" class="sr-only">Cena</label>
+                        <input id="new_pPrice" type="text" placeholder="Cena" class="mx-sm-3 form-control form-control" required>
                      </div>
                      <div class="form-group">
-                        <input type="submit" value="Submit" class="mx-sm-3 btn btn-primary">
+                        <input type="submit" value="Dodaj" class="mx-sm-3 btn btn-primary">
                      </div>
                   </form>
                </div>
             </div>
           </div>
         </div>
-
+        <?php
+        }
+       ?>
 
 
         <div id="new-updates" class="wrapper recent-updated">
@@ -68,13 +75,24 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
                   ?>
                   <li class="d-flex justify-content-between">
                     <div class="left-col d-flex">
-                      <div class="icon"><i class="icon-rss-feed"></i></div>
-                      <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
+                      <div class="title"><strong><?php echo $menu[$i]['name']; ?></strong>
+                        <p><?php echo $menu[$i]['description']; ?></p>
                       </div>
                     </div>
+                    <div class="right-col text-left">
+                      <?php echo $menu[$i]['price']; ?> zł
+                    </div>
                     <div class="right-col text-right">
-                      <div class="update-date">24<span class="month">Jan</span></div>
+                      <div class="icon">
+                        <a href="#" class="btn btn-primary" onclick="addItemToBasket(<?php echo $menu[$i]['id']; ?>, <?php echo $menu[$i]['price']; ?>)"> Do koszyka</a>
+                        <?php
+                          if ($uac->isLogged() && $uac->userID == $_GET['article_id']) {
+                        ?>
+                            <a href="#" class="btn btn-danger" onclick="deleteItem(<?php echo $menu[$i]['id']; ?>)">Usuń</a>
+                        <?php
+                        }
+                        ?>
+                      </div>
                     </div>
                   </li>
                   <?php
@@ -161,4 +179,12 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
 
 <script type="text/javascript">
     initMap(<?=$info['map_lat'];?>, <?=$info['map_lng'];?>);
+</script>
+
+<script type="text/javascript">
+  var MOD = "restaurant";
+  var ACT_ADD = "addMenuItem";
+  var API_ADD = base_url+'api/'+MOD+'/'+ACT_ADD+'/';
+  var API_DEL = base_url+'api/'+MOD+'/deleteMenuItem/';
+  var API_ADDBASKET = base_url+'api/'+MOD+'/addToBasket/';
 </script>

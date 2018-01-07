@@ -54,6 +54,87 @@ class RestaurantController extends UsersController
     return $re[0];
   }
 
+  public function addMenuItem(array $_t)
+  {
+    $query = "
+        INSERT INTO products (name, description, price, user_id, state)
+        VALUES (:name, :description, :price, :user_id, 'on')
+    ";
+
+    $params = [
+        "name" => $_t['name'],
+        "description" => $_t['description'],
+        "price" => $_t['price'],
+        "user_id" => $this->userID
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+  }
+
+  public function deleteMenuItem(int $id)
+  {
+    $query = "
+        DELETE FROM products
+        WHERE id = :id AND user_id = :user_id
+    ";
+
+    $params = [
+        "id" => $id,
+        "user_id" => $this->userID
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+  }
+
+  public function addToBasket($_t)
+  {
+    $query = 'SELECT id FROM orders WHERE user_id = :user_id AND restaurer_id = :restaurer_id';
+    $param = [
+              'user_id' => $this->userID,
+              'restaurer_id' => $_t['id']
+              ];
+    $this->db->setQuery($query)->setParams($param)->execute();
+    $re = $this->db->fetchData();
+
+    if (!empty($re[0]['id'])) {
+      $pid = $re[0]['id'];
+    }else {
+      $pid = $this->createNewOrder($_t['id']);
+    }
+
+
+    $query = "
+        INSERT INTO orders_details (product_id, order_id, price)
+        VALUES (:name, :description, :price)
+    ";
+
+    $params = [
+        "product_id" => $_t['product_id'],
+        "order_id" => $pid,
+        "price" => $_t['price']
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+
+  }
+
+  public function createNewOrder($id) : int
+  {
+    $query = "
+        INSERT INTO orders (id, user_id, state)
+        VALUES (:id, :user_id, 'new')
+    ";
+
+    $params = [
+        "id" => $id,
+        "user_id" => $this->userID
+    ];
+
+    $this->db->setQuery($query)->setParams($params)->execute();
+
+    return $this->db->getLastId();
+  }
+
 }
 
 ?>

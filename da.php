@@ -6,12 +6,20 @@ require_once dirname(__FILE__).'/include/init.php';
 $out = '';
 
 
+
+
 if(!empty($HTTP_RAW_POST_DATA)){
 	$HTTP_RAW_POST_DATA = json_decode($HTTP_RAW_POST_DATA);
 	foreach ($HTTP_RAW_POST_DATA as $key => $value) {
 		$_POST[$key] = $value;
 	}
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE') {
+	 parse_str(file_get_contents("php://input"), $q);
+	 $_POST = array_merge($_POST, $q);
+}
+
 
 
 if ($_GET['module'] == 'user') {
@@ -83,6 +91,26 @@ if ($_GET['module'] == 'user') {
 						];
 			http_response_code(404);
 		}
+	}
+}elseif ($_GET['module'] == 'restaurant') {
+	if ($_GET['action'] == 'addMenuItem') {
+		$r->addMenuItem($_POST);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Account registred.'
+					];
+	}elseif ($_GET['action'] == 'deleteMenuItem') {
+		$r->deleteMenuItem($_POST['id']);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Account registred.'
+					];
+	}elseif ($_GET['action'] == 'addToBasket') {
+		$r->addToBasket($_POST);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Account registred.'
+					];
 	}
 }
 
