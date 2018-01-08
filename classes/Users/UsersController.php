@@ -263,6 +263,18 @@ class UsersController
 
 		return $this->db->fetchData();
 	}
+
+	public function getArchivedOrders() : array
+	{
+		$query = "SELECT * FROM orders WHERE restaurer_id = :restaurer_id AND state='complited'";
+		$params = [
+				"restaurer_id" => $this->userID
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
 }
 
 ?>

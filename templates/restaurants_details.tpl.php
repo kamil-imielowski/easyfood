@@ -3,7 +3,7 @@ $menu = $r->getMenu($_GET['article_id']);
 $info = $r->getRestaurantDetails($_GET['article_id']);
 $basket = $uac->getUserBasket($_GET['article_id']);
 ?>
-<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0jlrcH7V8IJIotOn6HhPFWGbIwQcNSz4"></script>
 <script>
       function initMap( vlat, vlon) {
         var myLatLng = {lat: vlat, lng: vlon};

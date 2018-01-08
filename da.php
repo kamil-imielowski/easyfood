@@ -125,6 +125,14 @@ if ($_GET['module'] == 'user') {
 					];
 		# code...deleteBasketItem
 	}
+}elseif ($_GET['module'] == 'orders') {
+	if ($_GET['action'] == 'setComplited') {
+		$r->setComplited($_POST['id']);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Order complited.'
+					];
+	}
 }
 
 

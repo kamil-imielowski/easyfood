@@ -143,7 +143,7 @@ class RestaurantController extends UsersController
 
   }
 
-  public function createNewOrder($id) : int
+  public function createNewOrder(int $id) : int
   {
     $query = "
         INSERT INTO orders (restaurer_id, user_id, state)
@@ -158,6 +158,21 @@ class RestaurantController extends UsersController
     $this->db->setQuery($query)->setParams($params)->execute();
 
     return $this->db->getLastId();
+  }
+
+  public function setComplited(int $id) : void
+  {
+    $query = "
+      UPDATE orders
+      SET state='complited'
+      WHERE id = :id;
+    ";
+
+    $params = [
+        "id" => $id
+    ];
+
+    $this->db->setQuery($query)->setParams($params)->execute();
   }
 
 }
