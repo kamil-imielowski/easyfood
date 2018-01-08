@@ -16,6 +16,24 @@ $(document).ready(function() {
       location.reload();
     });
   });
+
+  $( "#orderProducts" ).submit(function( event ) {
+    event.preventDefault();
+    $.ajax({
+      url: API_POST_ORDER,
+      type: 'UPDATE',
+      dataType: 'json',
+      data: {
+        'id': $('#article_id').val(),
+        'name' : $('#new_pName').val(),
+        'description' : $('#new_pDesc').val(),
+        'price' : $('#new_pPrice').val()
+      }
+    })
+    .done(function() {
+      location.reload();
+    });
+  });
 });
 
 
@@ -32,6 +50,23 @@ var deleteItem = function (id) {
       location.reload();
     });
 }
+
+
+var deleteBasketItem = function (id) {
+    $.ajax({
+      url: API_DEL_BASKET_ITEM,
+      type: 'DELETE',
+      dataType: 'json',
+      data: {
+        'id' : id
+      }
+    })
+    .done(function() {
+      location.reload();
+    });
+}
+
+
 
 var addItemToBasket = function (id, price) {
     $.ajax({

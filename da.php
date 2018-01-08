@@ -15,7 +15,7 @@ if(!empty($HTTP_RAW_POST_DATA)){
 	}
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE') {
+if ($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE' ||$_SERVER['REQUEST_METHOD'] == 'UPDATE') {
 	 parse_str(file_get_contents("php://input"), $q);
 	 $_POST = array_merge($_POST, $q);
 }
@@ -97,7 +97,7 @@ if ($_GET['module'] == 'user') {
 		$r->addMenuItem($_POST);
 		$out = [
 						'status'=> 'succ',
-						'message' => 'Account registred.'
+						'message' => 'Item added.'
 					];
 	}elseif ($_GET['action'] == 'deleteMenuItem') {
 		$r->deleteMenuItem($_POST['id']);
@@ -109,8 +109,15 @@ if ($_GET['module'] == 'user') {
 		$r->addToBasket($_POST);
 		$out = [
 						'status'=> 'succ',
-						'message' => 'Account registred.'
+						'message' => 'Item added to basket.'
 					];
+	}elseif ($_GET['action'] == 'deleteBasketItem') {
+		$uac->deleteBasketItem($_POST['id']);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Item deleted.'
+					];
+		# code...deleteBasketItem
 	}
 }
 

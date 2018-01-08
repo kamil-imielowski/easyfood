@@ -5,7 +5,7 @@
       "database" => "easyfood",
       "database_prefix" => "",
       "user" => "root",
-      "password" => "",//password
+      "password" => "password",//
       "charset" => "utf8mb4"
     ];
 ?>

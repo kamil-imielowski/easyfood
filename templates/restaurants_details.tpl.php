@@ -1,6 +1,7 @@
 <?php
 $menu = $r->getMenu($_GET['article_id']);
 $info = $r->getRestaurantDetails($_GET['article_id']);
+$basket = $uac->getUserBasket($_GET['article_id']);
 ?>
 <script src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
@@ -65,9 +66,9 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
 
         <div id="new-updates" class="wrapper recent-updated">
           <div id="updates-header" class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Menu</a></h2><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
+            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Menu</a></h2><a data-toggle="collapse" data-parent="#new-updates5" href="#updates-box5" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
           </div>
-          <div id="updates-box" role="tabpanel" class="collapse show">
+          <div id="updates-box5" role="tabpanel" class="collapse show">
             <ul class="news list-unstyled">
               <?php
               if($menu){
@@ -84,7 +85,12 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
                     </div>
                     <div class="right-col text-right">
                       <div class="icon">
-                        <a href="#" class="btn btn-primary" onclick="addItemToBasket(<?php echo $menu[$i]['id']; ?>, <?php echo $menu[$i]['price']; ?>)"> Do koszyka</a>
+                        <?php if (!$uac->isLogged()): ?>
+                          Musisz się zalogować
+                        <?php else: ?>
+                          <a href="#" class="btn btn-primary" onclick="addItemToBasket(<?php echo $menu[$i]['id']; ?>, <?php echo $menu[$i]['price']; ?>)"> Do koszyka</a>
+                        <?php endif; ?>
+
                         <?php
                           if ($uac->isLogged() && $uac->userID == $_GET['article_id']) {
                         ?>
@@ -114,34 +120,82 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
       </div>
 
       <div class="col-lg-4 col-md-5">
-        <div>
-        <!-- Recent Updates            -->
-        <div id="new-updates" class="wrapper recent-updated">
-          <div id="updates-header" class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Koszyk</a></h2><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box2" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
-          </div>
-          <div id="updates-box2" role="tabpanel" class="collapse show">
-            <ul class="news list-unstyled">
 
-              <!--<li class="d-flex justify-content-between">
-                <div class="left-col d-flex">
-                  <div class="icon"><i class="icon-rss-feed"></i></div>
-                  <div class="title"><strong>Lorem ipsum dolor sit amet.</strong>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
-                  </div>
-                </div>
-                <div class="right-col text-right">
-                  <div class="update-date">24<span class="month">Jan</span></div>
-                </div>
-              </li>-->
+        <?php if ($uac->isLogged()): ?>
+          <div>
+          <!-- Recent Updates            -->
+          <div id="new-updates" class="wrapper recent-updated">
+            <div id="updates-header" class="card-header d-flex justify-content-between align-items-center">
+              <h2 class="h5 display"><a data-toggle="collapse" data-parent="#new-updates" href="#updates-box" aria-expanded="true" aria-controls="updates-box">Koszyk</a></h2><a data-toggle="collapse" data-parent="#new-updates12" href="#updates-box2" aria-expanded="true" aria-controls="updates-box"><i class="fa fa-angle-down"></i></a>
+            </div>
+            <div id="updates-box12" role="tabpanel" class="collapse show">
+              <ul class="news list-unstyled">
 
-              pusty
+                <?php
+                if ($basket) {
+                  $s = 0;
+                  for ($i=0; $i < count($basket); $i++) {
+                    $s += $basket[$i]['price']*$basket[$i]['quantity'];
+                    ?>
 
-            </ul>
+                    <li class="d-flex justify-content-between">
+                      <div class="left-col d-flex">
+                        <div class="title"><strong><?php echo $basket[$i]['name']; ?></strong>
+                          <p><?php echo $basket[$i]['description']; ?></p>
+                        </div>
+                      </div>
+                      <div class="right-col text-left">
+                        <?php echo $basket[$i]['quantity'].' <small>x</small> '.$basket[$i]['price']; ?> zł
+                      </div>
+                      <div class="right-col text-left">
+                        <a href="#" class="btn btn-danger" onclick="deleteBasketItem(<?php echo $basket[$i]['o_id']; ?>)">Usuń</a>
+                      </div>
+                    </li>
+
+                    <?php
+                  }
+
+                  ?>
+
+
+                  <li class="d-flex justify-content-between text-right">
+                    <p class="text-right"><strong>Suma: </strong> <?php echo $s; ?> zł</p>
+                  </li>
+                  <li>
+                    <form id="orderProducts" class="form-inline">
+                      <p>Dane dostawy: </p>
+                       <div class="form-group">
+                          <label for="inlineFormInput" class="sr-only">Ulica</label>
+                          <input id="order_street" type="text" placeholder="Ulica" value="<?php echo $uac->user_street; ?>" class="mx-sm-3 form-control" required>
+                       </div>
+                       <div class="form-group">
+                          <label for="inlineFormInput" class="sr-only">Kod pocztowy</label>
+                          <input id="order_postcode" type="text" placeholder="Kod pocztowy" value="<?php echo $uac->user_postcode; ?>" class="mx-sm-3 form-control" required>
+                       </div>
+                       <div class="form-group">
+                          <label for="inlineFormInputGroup" class="sr-only">Miasto</label>
+                          <input id="order_city" type="text" placeholder="Miasto" value="<?php echo $uac->user_city; ?>" class="mx-sm-3 form-control form-control" required>
+                       </div>
+                       <div class="form-group">
+                          <input type="submit" value="Zamów" class="mx-sm-3 btn btn-primary">
+                       </div>
+                    </form>
+                  </li>
+                  <hr>
+                  <?php
+
+                }else {
+                  echo "Pusty koszyk.";
+                }
+                ?>
+
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <br><br>
+        <br><br>
+        <?php endif; ?>
+
 
       <div class="">
         <!-- Recent Updates            -->
@@ -183,8 +237,9 @@ $info = $r->getRestaurantDetails($_GET['article_id']);
 
 <script type="text/javascript">
   var MOD = "restaurant";
-  var ACT_ADD = "addMenuItem";
-  var API_ADD = base_url+'api/'+MOD+'/'+ACT_ADD+'/';
+  var API_ADD = base_url+'api/'+MOD+'/addMenuItem/';
   var API_DEL = base_url+'api/'+MOD+'/deleteMenuItem/';
   var API_ADDBASKET = base_url+'api/'+MOD+'/addToBasket/';
+  var API_DEL_BASKET_ITEM = base_url+'api/'+MOD+'/deleteBasketItem/';
+  var API_POST_ORDER = base_url+'api/'+MOD+'/submitOrder/';
 </script>

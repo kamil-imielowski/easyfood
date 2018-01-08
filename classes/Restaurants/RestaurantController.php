@@ -102,17 +102,40 @@ class RestaurantController extends UsersController
       $pid = $this->createNewOrder($_t['id']);
     }
 
-
-    $query = "
-        INSERT INTO orders_details (product_id, order_id, price)
-        VALUES (:name, :description, :price)
-    ";
-
+    $query = 'SELECT orders_details.id FROM orders_details LEFT JOIN orders ON orders_details.order_id = orders.id WHERE orders_details.product_id = :product_id AND orders_details.order_id = :order_id AND orders.state = "new"';
     $params = [
         "product_id" => $_t['product_id'],
-        "order_id" => $pid,
-        "price" => $_t['price']
+        "order_id" => $pid
     ];
+
+    $this->db->setQuery($query)->setParams($params)->execute();
+    $tmp = $this->db->fetchData();
+
+    if ($tmp) {
+      $query = "
+        UPDATE orders_details
+        SET quantity = quantity+1
+        WHERE id = :id;
+      ";
+
+      $params = [
+          "id" => $tmp[0]['id']
+      ];
+    }else {
+      $query = "
+          INSERT INTO orders_details (product_id, order_id, price)
+          VALUES (:product_id, :order_id, :price)
+      ";
+
+      $params = [
+          "product_id" => $_t['product_id'],
+          "order_id" => $pid,
+          "price" => $_t['price']
+      ];
+    }
+
+
+
 
     return $this->db->setQuery($query)->setParams($params)->execute();
 
@@ -121,7 +144,7 @@ class RestaurantController extends UsersController
   public function createNewOrder($id) : int
   {
     $query = "
-        INSERT INTO orders (id, user_id, state)
+        INSERT INTO orders (restaurer_id, user_id, state)
         VALUES (:id, :user_id, 'new')
     ";
 
