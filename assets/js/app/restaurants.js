@@ -25,9 +25,10 @@ $(document).ready(function() {
       dataType: 'json',
       data: {
         'id': $('#article_id').val(),
-        'name' : $('#new_pName').val(),
-        'description' : $('#new_pDesc').val(),
-        'price' : $('#new_pPrice').val()
+        'order_street' : $('#order_street').val(),
+        'order_postcode' : $('#order_postcode').val(),
+        'order_city' : $('#order_city').val(),
+        'price' : $('#full_price').val()
       }
     })
     .done(function() {

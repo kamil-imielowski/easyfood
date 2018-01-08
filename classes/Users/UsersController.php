@@ -199,6 +199,32 @@ class UsersController
 
     return $this->db->setQuery($query)->setParams($params)->execute();
 	}
+
+	public function submitOrder($_t)
+	{
+		$query = "
+			UPDATE orders
+			SET street = :street,
+			city = :city,
+			total_price = :total_price,
+			state = 'pending',
+			postcode = :code,
+			date = NOW()
+			WHERE restaurer_id = :restaurer_id AND user_id = :user_id AND state = 'new'
+		";
+
+		$params = [
+			"restaurer_id" => $_t['id'],
+			"user_id" => $this->userID,
+				"street" => $_t['order_street'],
+				"city" => $_t['order_city'],
+				"total_price" => $_t['price'],
+				"code" => (string)$_t['order_postcode']
+		];
+
+
+		return $this->db->setQuery($query)->setParams($params)->execute();
+	}
 }
 
 ?>

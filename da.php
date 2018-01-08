@@ -117,6 +117,12 @@ if ($_GET['module'] == 'user') {
 						'status'=> 'succ',
 						'message' => 'Item deleted.'
 					];
+	}elseif ($_GET['action'] == 'submitOrder') {
+		$uac->submitOrder($_POST);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Order submited.'
+					];
 		# code...deleteBasketItem
 	}
 }

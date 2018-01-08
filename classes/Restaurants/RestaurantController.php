@@ -123,8 +123,8 @@ class RestaurantController extends UsersController
       ];
     }else {
       $query = "
-          INSERT INTO orders_details (product_id, order_id, price)
-          VALUES (:product_id, :order_id, :price)
+          INSERT INTO orders_details (product_id, order_id, price, created_date)
+          VALUES (:product_id, :order_id, :price, NOW())
       ";
 
       $params = [

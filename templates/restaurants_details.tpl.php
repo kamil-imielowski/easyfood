@@ -176,6 +176,7 @@ $basket = $uac->getUserBasket($_GET['article_id']);
                           <label for="inlineFormInputGroup" class="sr-only">Miasto</label>
                           <input id="order_city" type="text" placeholder="Miasto" value="<?php echo $uac->user_city; ?>" class="mx-sm-3 form-control form-control" required>
                        </div>
+                       <input id="full_price" type="hidden" name="" value="<?php echo $s; ?>">
                        <div class="form-group">
                           <input type="submit" value="Zamów" class="mx-sm-3 btn btn-primary">
                        </div>
