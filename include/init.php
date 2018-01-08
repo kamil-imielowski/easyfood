@@ -15,9 +15,10 @@
  $uac = new UsersController($DB);
 
  use classes\Content\ContentController;
- $cnt = new ContentController();
+ $cnt = new ContentController($DB);
 
-
+ use classes\Restaurants\RestaurantController;
+ $r = new RestaurantController($DB);
 
  require_once dirname(__FILE__).'/content_prepare.php';
 

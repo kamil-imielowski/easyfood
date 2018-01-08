@@ -31,26 +31,28 @@ else                 $cache = '';
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+      var base_url = "<?php echo base_url; ?>";
+    </script>
   </head>
   <body>
 
   <?php include_once dirname(__FILE__).'/templates/includes/menu.tpl.php'; ?>
-
+  <div class="page home-page">
+    <?php include_once dirname(__FILE__).'/templates/includes/top_menu.tpl.php'; ?>
     <?php
        $tf = $content['template_file'];
-       if ($tf!='' && file_exists(template_dir.$tf)) include(template_dir.$tf);
+       if ($tf!='' && file_exists(template_dir.$tf)) include_once dirname(__FILE__).'/'.template_dir.$tf;
     ?>
+
 
     <?php echo $cnt->linkJS(); ?>
 
     <footer class="main-footer">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <p>Easy food &copy; <?php echo date("Y") ?></p>
-            </div>
-            <div class="col-sm-6 text-right">
-              <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
             </div>
           </div>
         </div>

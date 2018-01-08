@@ -8,13 +8,16 @@ use classes\Database\DatabaseController;
 */
 class UsersController
 {
-	private $db;
+	protected $db;
 	private $logID            = '';
 	private $err_log          = [];
 
 	public $userID            = '';
 	public $user_name         = '';
 	public $user_surname      = '';
+	public $user_street       = '';
+	public $user_postcode     = '';
+	public $user_city      		= '';
 	public $user_email        = '';
 	public $user_type		   		= '';
 
@@ -35,10 +38,9 @@ class UsersController
 		}
 
 		$this->getUserInfo();
-		define('user_id', $this->userID);
 	}
 
-	public function userLogin($login, $pass)
+	public function userLogin($login, $pass) : bool
 	{
 		$query = 'SELECT id, email, state FROM users where LOWER(email) = :email AND pass = :pass LIMIT 0, 1';//WHERE id = :id
 		$param = [
@@ -109,15 +111,16 @@ class UsersController
 	    	$msg = 'account_bad_username_password';
 
 	    	array_push($this->err_log,$msg);
+				$o = false;
 
 	    }
 
 		return $o;
 	}
 
-	public function CheckEmailExist($email): bool
+	public function CheckEmailExist($email) : bool
 	{
-		$query = 'SELECT COUNT(*) FROM users where email = :email';//WHERE id = :id
+		$query = 'SELECT COUNT(*) as _ct FROM users where email like :email';//WHERE id = :id
 		$param = [
 								'email' => $email
 							];
@@ -125,14 +128,15 @@ class UsersController
 		$this->db->setQuery($query)->setParams($param)->execute();
 		$a= $this->db->fetchData();
 
-		return $a;
+
+		return (bool) $a[0]['_ct'];
 	}
 
-	private function getUserInfo()
+	private function getUserInfo() : void
 	{
 		if(is_numeric($this->userID)){
 
-			$query = 'SELECT id, firstname, email, lastname, user_type FROM users where id = :id';//WHERE id = :id
+			$query = 'SELECT id, firstname, street, city, postcode, map_lat, map_lng, email, lastname, user_type FROM users where id = :id';//WHERE id = :id
 			$param = [
 			            'id' => $this->userID
 			          ];
@@ -143,27 +147,149 @@ class UsersController
 			if (is_array($a)){
 				$a = $a[0];
 
-				$this->user_name    = $a['firstname'];
-				$this->user_surname = $a['lastname'];
-				$this->user_email   = $a['email'];
-				$this->user_type		= $a['user_type'];
+				$this->user_name     = $a['firstname'];
+				$this->user_surname  = $a['lastname'];
+				$this->user_street	 = $a['street'];
+				$this->user_postcode = $a['postcode'];
+				$this->user_city		 = $a['city'];
+				$this->user_email    = $a['email'];
+				$this->user_type		 = $a['user_type'];
+				$this->map_lat		 = $a['map_lat'];
+				$this->map_lng		 = $a['map_lng'];
 		  }
 		}
 	}
 
 
-	public function isLogged()
+	public function isLogged() : bool
 	{
 		if (is_numeric($this->logID) && $this->logID>0) return true;
 		else                                            return false;
 	}
 
 
-	public function logout()
+	public function logout() : void
 	{
 		$this->userID = $_SESSION[session_panel]['userID'] = '';
 		$this->logID  = $_SESSION[session_panel]['logID'] = '';
 	}
+
+
+	public function getUserBasket(int $r_id) : array
+	{
+		$query = 'SELECT *, orders_details.id as o_id FROM orders_details INNER JOIN orders ON orders_details.order_id = orders.id LEFT JOIN products ON  orders_details.product_id = products.id WHERE orders.restaurer_id = :restaurer_id AND orders.user_id = :user_id AND orders.state = "new"';
+		$params = [
+				"restaurer_id" => $r_id,
+				"user_id" => $this->userID
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function deleteBasketItem(int $id)
+	{
+		$query = "
+        DELETE FROM orders_details
+        WHERE id = :id
+    ";
+
+    $params = [
+        "id" => $id
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+	}
+
+	public function deleteRestaurant(int $id)
+	{
+		$query = "
+        DELETE FROM users
+        WHERE id = :id
+    ";
+
+    $params = [
+        "id" => $id
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+	}
+
+	public function submitOrder(array $_t)
+	{
+		$query = "
+			UPDATE orders
+			SET street = :street,
+			city = :city,
+			total_price = :total_price,
+			state = 'pending',
+			postcode = :code,
+			date = NOW()
+			WHERE restaurer_id = :restaurer_id AND user_id = :user_id AND state = 'new'
+		";
+
+		$params = [
+			"restaurer_id" => $_t['id'],
+			"user_id" => $this->userID,
+				"street" => $_t['order_street'],
+				"city" => $_t['order_city'],
+				"total_price" => $_t['price'],
+				"code" => (string)$_t['order_postcode']
+		];
+
+
+		return $this->db->setQuery($query)->setParams($params)->execute();
+	}
+
+	public function getActiveOrders() : array
+	{
+		$query = "SELECT * FROM orders WHERE restaurer_id = :restaurer_id AND state='pending'";
+		$params = [
+				"restaurer_id" => $this->userID
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function getOrderDetails(int $id) : array
+	{
+		$query = "SELECT * FROM orders_details LEFT JOIN products ON orders_details.product_id=products.id  WHERE orders_details.order_id = :order_id";
+		$params = [
+				"order_id" => $id
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function getUserOrderDetails(int $id) : array
+	{
+		$query = "SELECT firstname, lastname, phone FROM users WHERE id = :user_id";
+		$params = [
+				"user_id" => $id
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function getArchivedOrders() : array
+	{
+		$query = "SELECT * FROM orders WHERE restaurer_id = :restaurer_id AND state='complited'";
+		$params = [
+				"restaurer_id" => $this->userID
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
 }
 
 ?>

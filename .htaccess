@@ -13,6 +13,10 @@ RewriteEngine On
   RewriteRule  ^api/([^.]+)/([^.]+)/$                                          da.php?module=$1&action=$2 [L]
   RewriteRule  ^api/([^.]+)/$                                                  da.php?module=$1 [L]
 
+
+  RewriteRule  ^logout.html$                                                   index.php?g=logout [L]
+
+  RewriteRule  ^([^.]+),([0-9]+).html$                                          index.php?g=$1&article_id=$2 [L]
   RewriteRule  ^([^.]+).html$                                                   index.php?g=$1 [L]
   RewriteRule  ^index.html$                                                     index.php [L]
 
