@@ -1,16 +1,8 @@
-/*global $, document, Chart, LINECHART, data, options, window*/
+
 $(document).ready(function () {
 
     'use strict';
-
-    // Main Template Color
     var brandPrimary = '#33b35a';
-
-
-
-    // ------------------------------------------------------- //
-    // Side Navbar Functionality
-    // ------------------------------------------------------ //
     $('#toggle-btn').on('click', function (e) {
 
         e.preventDefault();
@@ -24,11 +16,6 @@ $(document).ready(function () {
         }
     });
 
-
-
-    // ------------------------------------------------------- //
-    // Transition Placeholders
-    // ------------------------------------------------------ //
     $('input').on('focus', function () {
         $(this).siblings('.label-custom').addClass('active');
     });
@@ -42,13 +29,6 @@ $(document).ready(function () {
             $(this).siblings('.label-custom').removeClass('active');
         }
     });
-
-
-
-
-    // ------------------------------------------------------- //
-    // External links to new window
-    // ------------------------------------------------------ //
 
     $('.external').on('click', function (e) {
 
