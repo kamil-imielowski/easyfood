@@ -88,13 +88,15 @@ class RestaurantController extends UsersController
 
   public function addToBasket($_t)
   {
-    $query = 'SELECT id FROM orders WHERE user_id = :user_id AND restaurer_id = :restaurer_id';
+    $query = 'SELECT id FROM orders WHERE user_id = :user_id AND restaurer_id = :restaurer_id AND state="new"';
     $param = [
               'user_id' => $this->userID,
               'restaurer_id' => $_t['id']
               ];
     $this->db->setQuery($query)->setParams($param)->execute();
     $re = $this->db->fetchData();
+
+
 
     if (!empty($re[0]['id'])) {
       $pid = $re[0]['id'];
@@ -123,8 +125,8 @@ class RestaurantController extends UsersController
       ];
     }else {
       $query = "
-          INSERT INTO orders_details (product_id, order_id, price, created_date)
-          VALUES (:product_id, :order_id, :price, NOW())
+          INSERT INTO orders_details (product_id, order_id, price)
+          VALUES (:product_id, :order_id, :price)
       ";
 
       $params = [

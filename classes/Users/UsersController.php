@@ -136,7 +136,7 @@ class UsersController
 	{
 		if(is_numeric($this->userID)){
 
-			$query = 'SELECT id, firstname, street, city, postcode, email, lastname, user_type FROM users where id = :id';//WHERE id = :id
+			$query = 'SELECT id, firstname, street, city, postcode, map_lat, map_lng, email, lastname, user_type FROM users where id = :id';//WHERE id = :id
 			$param = [
 			            'id' => $this->userID
 			          ];
@@ -154,6 +154,8 @@ class UsersController
 				$this->user_city		 = $a['city'];
 				$this->user_email    = $a['email'];
 				$this->user_type		 = $a['user_type'];
+				$this->map_lat		 = $a['map_lat'];
+				$this->map_lng		 = $a['map_lng'];
 		  }
 		}
 	}
@@ -224,6 +226,42 @@ class UsersController
 
 
 		return $this->db->setQuery($query)->setParams($params)->execute();
+	}
+
+	public function getActiveOrders() : array
+	{
+		$query = "SELECT * FROM orders WHERE restaurer_id = :restaurer_id AND state='pending'";
+		$params = [
+				"restaurer_id" => $this->userID
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function getOrderDetails(int $id) : array
+	{
+		$query = "SELECT * FROM orders_details LEFT JOIN products ON orders_details.product_id=products.id  WHERE orders_details.order_id = :order_id";
+		$params = [
+				"order_id" => $id
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
+	}
+
+	public function getUserOrderDetails(int $id) : array
+	{
+		$query = "SELECT firstname, lastname, phone FROM users WHERE id = :user_id";
+		$params = [
+				"user_id" => $id
+		];
+
+		$this->db->setQuery($query)->setParams($params)->execute();
+
+		return $this->db->fetchData();
 	}
 }
 
