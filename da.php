@@ -133,6 +133,14 @@ if ($_GET['module'] == 'user') {
 						'message' => 'Order complited.'
 					];
 	}
+}elseif ($_GET['module'] == 'admin' && $uac->isLogged() && $uac->user_type == 'admin') {
+	if ($_GET['action'] == 'deleteRestaurant') {
+		$uac->deleteRestaurant($_POST['id']);
+		$out = [
+						'status'=> 'succ',
+						'message' => 'Restaurant deleted.'
+					];
+	}
 }
 
 

@@ -175,7 +175,7 @@ class UsersController
 	}
 
 
-	public function getUserBasket($r_id) : array
+	public function getUserBasket(int $r_id) : array
 	{
 		$query = 'SELECT *, orders_details.id as o_id FROM orders_details INNER JOIN orders ON orders_details.order_id = orders.id LEFT JOIN products ON  orders_details.product_id = products.id WHERE orders.restaurer_id = :restaurer_id AND orders.user_id = :user_id AND orders.state = "new"';
 		$params = [
@@ -188,7 +188,7 @@ class UsersController
 		return $this->db->fetchData();
 	}
 
-	public function deleteBasketItem($id)
+	public function deleteBasketItem(int $id)
 	{
 		$query = "
         DELETE FROM orders_details
@@ -202,7 +202,21 @@ class UsersController
     return $this->db->setQuery($query)->setParams($params)->execute();
 	}
 
-	public function submitOrder($_t)
+	public function deleteRestaurant(int $id)
+	{
+		$query = "
+        DELETE FROM users
+        WHERE id = :id
+    ";
+
+    $params = [
+        "id" => $id
+    ];
+
+    return $this->db->setQuery($query)->setParams($params)->execute();
+	}
+
+	public function submitOrder(array $_t)
 	{
 		$query = "
 			UPDATE orders
@@ -275,6 +289,7 @@ class UsersController
 
 		return $this->db->fetchData();
 	}
+
 }
 
 ?>
