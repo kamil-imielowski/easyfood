@@ -191,38 +191,7 @@ LOCK TABLES `users_logging` WRITE;
 
 INSERT INTO `users_logging` (`id`, `date_log`, `date_last_reload`, `count_reloads`, `login`, `user_id`, `ip`, `hostname`, `system`, `state`)
 VALUES
-	(1,'2017-12-08 13:12:09',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(2,'2017-12-08 13:13:13',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(3,'2017-12-08 13:13:13',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(4,'2017-12-08 13:13:16',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(5,'2017-12-08 13:13:17',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(6,'2017-12-08 13:13:17',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(7,'2017-12-08 13:13:18',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(8,'2017-12-08 13:15:08',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(9,'2017-12-08 13:15:09',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(10,'2017-12-08 13:15:53',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(11,'2017-12-08 13:18:27',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(12,'2017-12-08 13:18:28',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(13,'2017-12-08 13:18:46',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(14,'2017-12-08 13:18:47',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(15,'2017-12-08 13:18:48',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(16,'2017-12-08 13:18:48',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(17,'2017-12-08 13:18:49',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(18,'2017-12-08 13:18:49',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(19,'2017-12-08 13:19:01',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(20,'2017-12-08 13:19:01',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(21,'2018-01-04 10:14:00',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(22,'2018-01-04 10:14:28',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(23,'2018-01-05 09:41:06',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(24,'2018-01-05 09:41:07',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(25,'2018-01-05 09:41:57',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(26,'2018-01-08 06:53:29',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(27,'2018-01-08 07:14:01',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(28,'2018-01-08 08:21:43',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(29,'2018-01-08 12:53:25',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in'),
-	(30,'2018-01-09 12:37:55',NULL,0,'r6@o2.pl',8,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36','in'),
-	(31,'2018-01-09 12:49:50',NULL,0,'as@arris.pl',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36','in'),
-	(32,'2018-01-09 12:50:35',NULL,0,'r6@o2.pl',8,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36','in');
+	(1,'2017-12-08 13:12:09',NULL,0,'test',1,'10.0.0.1','10.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36','in');
 
 /*!40000 ALTER TABLE `users_logging` ENABLE KEYS */;
 UNLOCK TABLES;
