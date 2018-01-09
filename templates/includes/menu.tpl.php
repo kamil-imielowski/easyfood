@@ -11,7 +11,8 @@
                 <li<?=((isset($_GET['g']) && $_GET['g'] == 'restaurants') ? ' class="active"' : '');?>> <a href="restaurants.html"><i class="fa fa-cutlery"></i><span>restauracje</span></a></li>
                 <?php if ($uac->isLogged() && $uac->user_type == 'restaurateur'): ?>
                     <li<?=((isset($_GET['g']) && $_GET['g'] == 'orders') ? ' class="active"' : '');?>> <a href="orders.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Zamówienia</span></a></li>
-                <?php endif; ?>
+                      <li<?=((isset($_GET['g']) && $_GET['g'] == 'restaurants' && isset($_GET['article_id']) && $_GET['article_id'] == $uac->userID) ? ' class="active"' : '');?>> <a href="restaurants,<?php echo $uac->userID; ?>.html"><i class="fa fa-cutlery" aria-hidden="true"></i><span>Profil restautacji</span></a></li>
+                  <?php endif; ?>
 
                 <?php if ($uac->isLogged() && $uac->user_type == 'admin'): ?>
                     <li<?=((isset($_GET['g']) && $_GET['g'] == 'admin') ? ' class="active"' : '');?>> <a href="admin.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Acmin Panel</span></a></li>

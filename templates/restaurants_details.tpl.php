@@ -88,7 +88,10 @@ $basket = $uac->getUserBasket($_GET['article_id']);
                         <?php if (!$uac->isLogged()): ?>
                           Musisz się zalogować
                         <?php else: ?>
-                          <a href="#" class="btn btn-primary" onclick="addItemToBasket(<?php echo $menu[$i]['id']; ?>, <?php echo $menu[$i]['price']; ?>)"> Do koszyka</a>
+                          <?php if ($uac->userID != $_GET['article_id']): ?>
+                            <a href="#" class="btn btn-primary" onclick="addItemToBasket(<?php echo $menu[$i]['id']; ?>, <?php echo $menu[$i]['price']; ?>)"> Do koszyka</a>
+                          <?php endif; ?>
+
                         <?php endif; ?>
 
                         <?php
